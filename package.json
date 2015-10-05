@@ -1,0 +1,22 @@
+{
+  "name": "react-pull-to-refresh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "pull-to-refresh",
+    "touch"
+  ],
+  "author": "Renat Nasyrov",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^5.8.25"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  }
+}

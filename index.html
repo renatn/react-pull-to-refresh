@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>React Pull To Refresh 1.1</title>
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="style.css">
+
+        <script src="node_modules/react/dist/react.js"></script>
+        <script src="node_modules/babel-core/browser.js"></script>
+    </head>
+
+    <body>
+        <script type="text/babel">
+            var Main = React.createClass({
+
+                getInitialState: function() {
+                    return {
+                        pull: false,
+                        from: 0,
+                        distance: 0,
+                        height: 56
+                    };
+                },
+
+                componentDidMount: function() {
+                    const height = React.findDOMNode(this.refs.ptr).offsetHeight;
+                    this.setState({height: height});
+                },
+
+                handleMouseDown: function(e) {
+                    if (document.body.scrollTop === 0) {
+                        this.setState({pull: true, from: e.pageY});
+                    }
+                },
+
+                handleMouseUp: function(e) {
+                    if (this.state.pull) {
+                        this.setState({pull: false, distance: 0});
+                    }
+                },
+
+                handleMouseMove: function(e) {
+                    if (this.state.pull) {
+                        this.setState({
+                            distance: (e.pageY - this.state.from) / 2.5
+                        });
+                    }
+                },
+
+                render: function() {
+                    const contentTranslate = 'translate3d(0, ' + this.state.distance + 'px, 0)';
+                    const contentStyle = {
+                        transform: contentTranslate,
+                        WebkitTransform: contentTranslate
+                    };
+
+                    const ptrTranslate = 'translate3d(0, ' + (this.state.distance - this.state.height) + 'px, 0)'
+                    const ptrStyle = {
+                        transform: ptrTranslate,
+                        WebkitTransform: ptrTranslate
+                    };
+
+                    return (
+                        <div className={this.state.distance > 70 ? "wrap ptr-active" : "wrap"}>
+                            <div className="pull-to-refresh" style={ptrStyle} ref="ptr">
+                                <span className="arrow">&#8595;</span>
+                            </div>
+                            <div className="content"
+                                style={contentStyle}
+                                onMouseDown={this.handleMouseDown}
+                                onMouseUp={this.handleMouseUp}
+                                onMouseLeave={this.handleMouseUp}
+                                onMouseMove={this.handleMouseMove}>
+                                Pull down to refresh!
+                            </div>
+                        </div>
+                    );
+                }
+            });
+            React.render(
+              <Main/>,
+              document.body
+            );
+        </script>
+    </body>
+
+</html>
+
+
