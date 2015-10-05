@@ -28,6 +28,28 @@
                     this.setState({height: height});
                 },
 
+                handleTouchStart: function(e) {
+                    const touch = e.touches[0];
+                    if (document.body.scrollTop === 0) {
+                        this.setState({pull: true, from: touch.pageY});
+                    }
+                },
+
+                handleTouchMove: function(e) {
+                    const touch = e.touches[0];
+                    if (this.state.pull) {
+                        this.setState({
+                            distance: (touch.pageY - this.state.from) / 2.5
+                        });
+                    }
+                },
+
+                handleTouchEnd: function(e) {
+                    if (this.state.pull) {
+                        this.setState({pull: false, distance: 0});
+                    }
+                },
+
                 handleMouseDown: function(e) {
                     if (document.body.scrollTop === 0) {
                         this.setState({pull: true, from: e.pageY});
@@ -68,6 +90,9 @@
                             </div>
                             <div className="content"
                                 style={contentStyle}
+                                onTouchStart={this.handleTouchStart}
+                                onTouchMove={this.handleTouchMove}
+                                onTouchEnd={this.handleTouchEnd}
                                 onMouseDown={this.handleMouseDown}
                                 onMouseUp={this.handleMouseUp}
                                 onMouseLeave={this.handleMouseUp}
@@ -78,6 +103,8 @@
                     );
                 }
             });
+
+            React.initializeTouchEvents(true);
             React.render(
               <Main/>,
               document.body
