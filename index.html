@@ -38,6 +38,7 @@
                 handleTouchMove: function(e) {
                     const touch = e.touches[0];
                     if (this.state.pull) {
+                        e.preventDefault();
                         this.setState({
                             distance: (touch.pageY - this.state.from) / 2.5
                         });
