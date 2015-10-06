@@ -19,6 +19,7 @@ body {
     width: auto;
     height: auto;
     transition: transform .25s ease;
+    -webkit-transition: transform .25s ease;
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
     margin-top: 5px;
